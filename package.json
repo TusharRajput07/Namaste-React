@@ -1,0 +1,30 @@
+{
+  "name": "react-project",
+  "version": "1.0.0",
+  "description": "learning React",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TusharRajput07/Namaste-React.git"
+  },
+  "keywords": [
+    "react",
+    "tushar"
+  ],
+  "author": "Tushar Rajput",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TusharRajput07/Namaste-React/issues"
+  },
+  "homepage": "https://github.com/TusharRajput07/Namaste-React#readme",
+  "devDependencies": {
+    "parcel": "^2.12.0",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
