@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "learning React",
   "scripts": {
+    "start": "parcel lecture_1/lecture_1.html",
+    "build": "parcel build lecture_3.html",
+    "start-l2": "parcel lecture_2/lecture_2.html",
+    "start-l3": "parcel lecture_3/lecture_3.html",
     "test": "jest"
   },
   "repository": {
