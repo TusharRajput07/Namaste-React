@@ -7,6 +7,7 @@
     "build": "parcel build lecture_3.html",
     "start-l2": "parcel lecture_2/lecture_2.html",
     "start-l3": "parcel lecture_3/lecture_3.html",
+    "start-app": "parcel project-food-ordering-app/app.html",
     "test": "jest"
   },
   "repository": {

@@ -1,0 +1,68 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+/*--------------------------------------- header ----------------------------------------------*/
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  background: linear-gradient(
+    to right,
+    rgb(243, 206, 121),
+    orange,
+    rgb(252, 128, 128)
+  );
+}
+
+.nav-items {
+  display: flex;
+  align-items: center;
+}
+
+.item {
+  padding: 0px 20px;
+  font-size: 20px;
+}
+
+.logo {
+  width: 70px;
+}
+
+.cart {
+  width: 50px;
+}
+
+/*--------------------------------------- body ----------------------------------------------*/
+
+.search-container {
+  height: 20px;
+}
+
+.res-container {
+  padding: 20px 50px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.res-logo {
+  width: 190px;
+  padding: 5px 5px;
+}
+
+.res-card {
+  width: 200px;
+  border: 1px solid transparent;
+  margin: 20px 35px;
+  background-color: rgb(234, 231, 231);
+}
+
+.res-card:hover {
+  cursor: pointer;
+  box-shadow: 0px 1px 5px;
+  background-color: rgb(240, 237, 237);
+}
+
+.res-info {
+  padding: 5px 5px;
+}
