@@ -1,27 +1,68 @@
 // Body Component
 import RestaurantCard from "./RestaurantCard";
-import resList from "../utils/mockData";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Shimmer from "./Shimmer";
+
+const SHOW_TOP = "showTop";
+const SHOW_ALL = "showAll";
 
 const Body = () => {
-  // local state variable for page content
-  const [restaurantList, setRestaurantList] = useState(resList);
-  // local state variable for filter button
-  const [isFiltered, setIsFiltered] = useState(false);
+  const [restaurantList, setRestaurantList] = useState(null); // local state variable for page's current content
+  const [originalList, setOriginalList] = useState([]); // local state variable for original restaurant list (it will never change)
+  const [btnName, setBtnName] = useState(SHOW_TOP); // local state variable for filter button
+  const [searchText, setSearchText] = useState(""); // local state variable for search input text
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    const data = await fetch(
+      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.65420&lng=77.23730&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+    );
+    // converting the data to json format (as the data returned will be non-readable)
+    json = await data.json();
+
+    const resList =
+      json.data?.cards?.[4]?.card?.card?.gridElements?.infoWithStyle
+        ?.restaurants;
+
+    setOriginalList(resList);
+    setRestaurantList(resList);
+  };
 
   const filterPage = () => {
-    setIsFiltered(!isFiltered);
-    if (isFiltered) {
+    if (btnName == SHOW_TOP) {
+      setBtnName(SHOW_ALL);
       const filteredList = restaurantList.filter(
-        (res) => res.info.avgRating > 4
+        (res) => res.info.avgRating > 4.2
       );
       setRestaurantList(filteredList);
     } else {
-      setRestaurantList(resList);
+      setBtnName(SHOW_TOP);
+      setRestaurantList(originalList);
     }
   };
 
+  const handleSearch = () => {
+    const filteredList = originalList.filter((res) =>
+      res?.info?.name?.toLowerCase()?.includes(searchText.toLowerCase())
+    );
+    setRestaurantList(filteredList);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  if (!restaurantList) {
+    // first render (before api data) (restList has null in it)
+    return <Shimmer />;
+  }
+  // second render (after api data)
   return (
     <div className="body">
       <div className="search-container">
@@ -29,24 +70,42 @@ const Body = () => {
           type="text"
           placeholder="Search for restaurant, cuisine or a dish"
           className="search-bar"
+          value={searchText}
+          onChange={(e) => {
+            setSearchText(e.target.value);
+          }}
+          onKeyDown={handleKeyDown}
         />
-        <SearchRoundedIcon fontSize="large" className="search-icon" />
+        <SearchRoundedIcon
+          fontSize="large"
+          className="search-icon"
+          onClick={handleSearch}
+        />
       </div>
-      <div className="heading-container">
-        <div className="heading">
-          Restaurants with online food delivery in Delhi
-        </div>
-        <div class="filter">
-          <div className="filter-btn" onClick={filterPage}>
-            {isFiltered ? "Show All Restaurants" : "Top Rated Restaurants"}
+
+      {restaurantList.length === 0 ? (
+        <div className="not-found">Oops! No Search Results Found.</div>
+      ) : (
+        <>
+          <div className="heading-container">
+            <div className="heading">
+              Restaurants with online food delivery in Delhi
+            </div>
+            <div className="filter">
+              <div className="filter-btn" onClick={filterPage}>
+                {btnName === SHOW_TOP
+                  ? "Show Top Restaurants"
+                  : "Show All Restaurants"}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="res-container">
-        {restaurantList.map((restaurant) => (
-          <RestaurantCard key={restaurant.info.id} resData={restaurant} />
-        ))}
-      </div>
+          <div className="res-container">
+            {restaurantList?.map((restaurant) => (
+              <RestaurantCard key={restaurant.info.id} resData={restaurant} />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };

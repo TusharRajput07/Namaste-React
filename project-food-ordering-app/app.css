@@ -46,6 +46,10 @@ body {
   margin-left: 10px;
 }
 
+.brand-name:hover {
+  cursor: pointer;
+}
+
 .logo {
   width: 55px;
   height: 55px;
@@ -96,10 +100,20 @@ body {
   border: 0px;
   box-shadow: 0px 0px 1px;
   font-size: 14px;
+  transition: all 0.1s ease-in-out;
+}
+
+.search-bar:focus {
+  font-size: 15px;
+  box-shadow: 0px 0px 2px;
 }
 
 .search-icon {
-  padding-left: 5px;
+  padding-left: 10px;
+}
+
+.search-icon:hover {
+  cursor: pointer;
 }
 
 .heading-container {
@@ -129,6 +143,13 @@ body {
 
 .filter-btn:hover {
   color: rgb(211, 136, 57);
+}
+
+.not-found {
+  font-size: 30px;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
 }
 
 .res-container {
@@ -220,4 +241,31 @@ body {
 
 .res-info {
   padding: 5px 12px 15px 12px;
+}
+
+/*--------------------------------------- shimmer ----------------------------------------------*/
+
+.shimmer-search {
+  width: 40vw;
+  height: 50px;
+  padding: 0px 20px 0px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: rgb(242, 238, 238);
+}
+
+.shimmer-heading {
+  background-color: rgb(242, 238, 238);
+  width: 600px;
+  height: 40px;
+  padding-top: 20px;
+}
+
+.shimmer-cards {
+  width: 300px;
+  height: 350px;
+  background-color: rgb(242, 238, 238);
+  border: 1px solid transparent;
+  border-radius: 30px;
+  margin: 20px 35px;
 }
