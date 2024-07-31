@@ -1,5 +1,5 @@
 // Shimmer Component
-const Shimmer = () => {
+export const Shimmer = () => {
   return (
     <div className="body">
       <div className="search-container">
@@ -23,4 +23,14 @@ const Shimmer = () => {
   );
 };
 
-export default Shimmer;
+// Shimmer Menu Component
+export const ShimmerMenu = () => {
+  return (
+    <div className="res-menu">
+      <div className="res-detail-card shimmer-menu-banner"></div>
+      <div className="menu-heading shimmer-heading"></div>
+      <div className="res-dish-card shimmer-dish-card"></div>
+      <div className="res-dish-card shimmer-dish-card"></div>
+    </div>
+  );
+};

@@ -41,4 +41,20 @@ const RestaurantCard = (props) => {
   );
 };
 
+// higher order component for restaurant card. returns restaurant cards with offers
+
+export const withOffers = (RestaurantCard) => {
+  return (props) => {
+    const { aggregatedDiscountInfoV3 } = props?.resData?.info;
+    return (
+      <div>
+        <label className="offer-label">
+          {aggregatedDiscountInfoV3.header} {aggregatedDiscountInfoV3.subHeader}
+        </label>
+        <RestaurantCard {...props} />
+      </div>
+    );
+  };
+};
+
 export default RestaurantCard;

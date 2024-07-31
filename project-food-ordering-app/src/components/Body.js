@@ -1,8 +1,10 @@
 // Body Component
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, { withOffers } from "./RestaurantCard";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { useEffect, useState } from "react";
-import Shimmer from "./Shimmer";
+import { Shimmer } from "./Shimmer";
+import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const SHOW_TOP = "showTop";
 const SHOW_ALL = "showAll";
@@ -12,6 +14,8 @@ const Body = () => {
   const [originalList, setOriginalList] = useState([]); // local state variable for original restaurant list (it will never change)
   const [btnName, setBtnName] = useState(SHOW_TOP); // local state variable for filter button
   const [searchText, setSearchText] = useState(""); // local state variable for search input text
+
+  const RestaurantCardOffered = withOffers(RestaurantCard); // restaurant card component with offers
 
   useEffect(() => {
     fetchData();
@@ -29,6 +33,7 @@ const Body = () => {
         ?.restaurants;
 
     setOriginalList(resList);
+    // console.log(resList[2].info.aggregatedDiscountInfoV3.header);
     setRestaurantList(resList);
   };
 
@@ -57,6 +62,10 @@ const Body = () => {
       handleSearch();
     }
   };
+
+  if (!useOnlineStatus()) {
+    return <h1>Looks like you are offline!</h1>;
+  }
 
   if (!restaurantList) {
     // first render (before api data) (restList has null in it)
@@ -101,7 +110,19 @@ const Body = () => {
           </div>
           <div className="res-container">
             {restaurantList?.map((restaurant) => (
-              <RestaurantCard key={restaurant.info.id} resData={restaurant} />
+              <Link
+                key={restaurant?.info?.id}
+                to={"/restaurant/" + restaurant?.info?.id}
+              >
+                {restaurant?.info?.aggregatedDiscountInfoV3 &&
+                typeof restaurant.info.aggregatedDiscountInfoV3 === "object" &&
+                Object.keys(restaurant?.info?.aggregatedDiscountInfoV3)
+                  ?.length > 0 ? (
+                  <RestaurantCardOffered resData={restaurant} />
+                ) : (
+                  <RestaurantCard resData={restaurant} />
+                )}
+              </Link>
             ))}
           </div>
         </>
