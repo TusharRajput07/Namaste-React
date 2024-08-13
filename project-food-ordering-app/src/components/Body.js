@@ -1,10 +1,11 @@
 // Body Component
 import RestaurantCard, { withOffers } from "./RestaurantCard";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Shimmer } from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import ProfileContext from "../utils/ProfileContext";
 
 const SHOW_TOP = "showTop";
 const SHOW_ALL = "showAll";
@@ -14,6 +15,7 @@ const Body = () => {
   const [originalList, setOriginalList] = useState([]); // local state variable for original restaurant list (it will never change)
   const [btnName, setBtnName] = useState(SHOW_TOP); // local state variable for filter button
   const [searchText, setSearchText] = useState(""); // local state variable for search input text
+  const userData = useContext(ProfileContext);
 
   const RestaurantCardOffered = withOffers(RestaurantCard); // restaurant card component with offers
 
@@ -98,7 +100,8 @@ const Body = () => {
         <>
           <div className="heading-container">
             <div className="heading">
-              Restaurants with online food delivery in Delhi
+              Hi {userData?.username}, Restaurants with online food delivery in
+              Delhi
             </div>
             <div className="filter">
               <div className="filter-btn" onClick={filterPage}>

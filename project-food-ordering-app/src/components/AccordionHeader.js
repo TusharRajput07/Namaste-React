@@ -3,7 +3,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 const AccordionHeader = (props) => {
-  const { info, showItems, openAccordion } = props;
+  const { info, showItems, openAccordion, resInfo } = props;
   const { title, itemCards } = info;
 
   return (
@@ -19,6 +19,7 @@ const AccordionHeader = (props) => {
       {showItems &&
         itemCards.map((dish) => (
           <RestaurantDishCard
+            resInfo={resInfo}
             key={dish?.card?.info?.id}
             dish={dish?.card?.info}
           />

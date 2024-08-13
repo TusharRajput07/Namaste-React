@@ -1,11 +1,9 @@
+import { useState } from "react";
 import RestaurantDetailCard from "./RestaurantDetailCard";
-import RestaurantDishCard from "./RestaurantDishCard";
 import { useParams } from "react-router-dom";
 import { ShimmerMenu } from "./Shimmer";
 import useResMenu from "../utils/useResMenu";
 import AccordionHeader from "./AccordionHeader";
-import { Key } from "@mui/icons-material";
-import { useState } from "react";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
@@ -28,6 +26,7 @@ const RestaurantMenu = () => {
         ?.map((a, index) => (
           // controlled component
           <AccordionHeader
+            resInfo={resInfo}
             key={a?.card?.card?.title}
             info={a?.card?.card}
             showItems={index === openIndex ? true : false}

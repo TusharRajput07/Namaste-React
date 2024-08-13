@@ -1,10 +1,54 @@
+import { useState } from "react";
 import StarRoundedIcon from "@mui/icons-material/StarRounded";
+import { useDispatch, useSelector } from "react-redux";
+import useAddItem from "../utils/useAddItem";
+import useRemoveItem from "../utils/useRemoveItem";
+import ChangeRestaurant from "./ChangeRestaurant";
+import { updateRes } from "../utils/cartSlice";
 
 const RestaurantDishCard = (props) => {
-  const { dish } = props;
+  const dishObject = useSelector((store) => store.cart.dishObject);
+  const resObject = useSelector((store) => store.cart.resObject);
+  const addDishToCart = useAddItem();
+  const removeDishFromCart = useRemoveItem();
+  const [openDialog, setOpenDialog] = useState(false);
+  const dispatch = useDispatch();
 
-  const { name, price, defaultPrice, isVeg, ratings, description, imageId } =
-    dish;
+  const { dish, resInfo } = props;
+  const {
+    name,
+    price,
+    defaultPrice,
+    isVeg,
+    ratings,
+    description,
+    imageId,
+    id,
+  } = dish;
+
+  const handleAddItem = () => {
+    if (!resObject) {
+      setRestaurant();
+      addDishToCart(dish);
+    } else if (resInfo?.id !== resObject?.id) {
+      setOpenDialog(true);
+    } else {
+      addDishToCart(dish);
+    }
+  };
+
+  const handleDialogResponse = (response) => {
+    if (response) {
+      setRestaurant();
+      addDishToCart(dish, true);
+    }
+    setOpenDialog(false);
+  };
+
+  const setRestaurant = () => {
+    const { id, name, locality, areaName, cloudinaryImageId } = resInfo;
+    dispatch(updateRes({ id, name, locality, areaName, cloudinaryImageId }));
+  };
 
   return (
     <div className="res-dish-card">
@@ -39,8 +83,30 @@ const RestaurantDishCard = (props) => {
           alt="dish-image"
           className="res-dish-image"
         />
-        <div className="add-to-cart">Add</div>
+
+        {dishObject[id] ? (
+          <div className="add-to-cart-aft">
+            <div className="addMinus" onClick={() => removeDishFromCart(dish)}>
+              -
+            </div>
+            <div className="cartQty">{dishObject[id].qty}</div>
+            <div className="addPlus" onClick={() => addDishToCart(dish)}>
+              +
+            </div>
+          </div>
+        ) : (
+          <div className="add-to-cart-init" onClick={() => handleAddItem()}>
+            Add
+          </div>
+        )}
       </div>
+
+      {openDialog && (
+        <ChangeRestaurant
+          open={openDialog}
+          handleDialogResponse={handleDialogResponse}
+        />
+      )}
     </div>
   );
 };

@@ -11,7 +11,7 @@ export const Shimmer = () => {
         <div className="shimmer-filter"></div>
       </div>
 
-      <div className="res-container">
+      <div className="res-container shimmer-card-container">
         <div className="shimmer-cards"></div>
         <div className="shimmer-cards"></div>
         <div className="shimmer-cards"></div>
